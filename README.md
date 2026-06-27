@@ -33,7 +33,8 @@ Inspired by these results, we wanted to investigate how AVOA could be integrated
 
 ## Architecture
 
-<img width="1788" height="1206" alt="IMG_0811" src="https://github.com/user-attachments/assets/cfa4ce09-5370-4683-bfa2-d2991db98e98" />
+<img width="1788" height="1206" alt="IMG_0811" src="https://github.com/user-attachments/assets/27be3ff8-39b0-49b9-853e-6fd67b0e3961" />
+
 
 ## Technologies Used
 
@@ -186,7 +187,15 @@ As said above a future addition could add additional complex features from the p
   
 * Port Statistics / Queuing Delays
 
-We could also include a Training Iteration Threshold (train): The pseudocode requires a training threshold variable. It uses a condition if i < t_train to dynamically decide whether to update parameter F using Eq.
+We could also include a Training Iteration Threshold (train): 
+>The paper has a training threshold variable. It uses a condition if i < t_train to dynamically decide whether to update parameter F. And have Granular Phase Transitions:
+
+>This project Completely omits train and calculates F using a single, simplified generic formula.
+
+Granular Phase Transitions:
+>Within the exploration and exploitation phases, the code checks sub-conditions based on random parameters (e.g., if G1 >= r_G1) to choose between distinct update equations
+
+> This project implements a single, generic placeholder math equation for abs(F) >= 1 and abs(F) < 1.
 
 
 
