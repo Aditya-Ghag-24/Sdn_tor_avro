@@ -59,6 +59,8 @@ Inspired by these results, we wanted to investigate how AVOA could be integrated
 
 >image from *"Chen, Junyan & Xiao, Wei & Zhang, Hongmei & Zuo, Jiacheng & Li, Xinmei. (2024). Dynamic routing optimization in software-defined networking based on a metaheuristic algorithm. Journal of Cloud Computing. 13. 10.1186/s13677-024-00603-1.*"
 
+>The figure illustrates the general workflow of the original AVOA algorithm. The implementation in this repository is a simplified adaptation whose differences are summarized below.
+
 For the routing algorithm we took direct inspiration from "Dynamic routing optimization in software-defined networing based on a metaheuristic algorithm" as it allows dynamic network managment and configuration through programming.
  
 As you can see in the image above a population of vultures is created who produce a fitness score based on the metrics they bring from traveling in the network. From this data a calculation is made whether to explore more in the network or improve the existing links or choose these weights for the network if they are the best for network performance
