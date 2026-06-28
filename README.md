@@ -59,98 +59,30 @@ Inspired by these results, we wanted to investigate how AVOA could be integrated
 
 >image from *"Chen, Junyan & Xiao, Wei & Zhang, Hongmei & Zuo, Jiacheng & Li, Xinmei. (2024). Dynamic routing optimization in software-defined networking based on a metaheuristic algorithm. Journal of Cloud Computing. 13. 10.1186/s13677-024-00603-1.*"
 
-For the routing algorithm we took direcr inspiration from "Dynamic routing optimization in software-defined networing based on a metaheuristic algorithm" as it allows dynamic network managment and configuration through programming.
+For the routing algorithm we took direct inspiration from "Dynamic routing optimization in software-defined networing based on a metaheuristic algorithm" as it allows dynamic network managment and configuration through programming.
  
 As you can see in the image above a population of vultures is created who produce a fitness score based on the metrics they bring from traveling in the network. From this data a calculation is made whether to explore more in the network or improve the existing links or choose these weights for the network if they are the best for network performance
 
-    FUNCTION MiniAVOA_Solve(num_dim, fitness_func, pop_size=5, epochs=2):
-    // Step 1: Initialize Boundaries
-    Set lb = 1.0
-    Set ub = 20.0
 
-    // Step 2: Initialize Population and Fitness
-    Create matrix 'pop' of size (pop_size, num_dim) filled with random values uniformly between lb and ub
-    Create array 'fitness' of size pop_size
-    
-    FOR each individual 'ind' at index 'k' in pop:
-        fitness[k] = fitness_func(ind)
-    END FOR
+Overview
+This code defines an automated routing system that optimizes network performance. It uses a custom AI engine inspired by vulture behaviors (MiniAVOA) to find the best configuration of edge weights in a network graph, which it then uses to route data traffic smoothly along the shortest available path.
 
-    // Step 3: Identify the initial best vulture
-    Find 'best_idx' where fitness is minimized
-    Set 'best_vulture' = copy of pop[best_idx]
-    Set 'best_fit' = fitness[best_idx]
+The Two Main Steps
+1. The AI Optimization Engine (MiniAVOA)
+  * Goal: Find an ideal set of line metrics (weights) that balances the entire network.
+  * How it works: It creates a small group ("population") of random network weight combinations. It loops through a series of refinement rounds ("epochs").
+  * The Strategy: In each round, it uses an adaptive formula to decide whether to search wild, untested areas of the network (Exploration Phase) or narrow down and refine the best known configuration (Exploitation Phase). It continuously keeps track of the absolute best configuration it finds.
 
-    // Step 4: Optimization Loop
-    FOR epoch from 0 to (epochs - 1):
-        FOR i from 0 to (pop_size - 1):
-            
-            // Calculate adaptive factors
-            Set P = Random value between 0.0 and 1.0
-            Set F = (2 * Random value between 0.0 and 1.0 - 1) * (1 - epoch / epochs)
 
-            // Phase Selection
-            IF AbsoluteValue(F) >= 1 THEN
-                // Exploration Phase
-                pop[i] = best_vulture - AbsoluteValue(P * best_vulture - pop[i]) * F
-            ELSE
-                // Exploitation Phase
-                pop[i] = best_vulture + (best_vulture - pop[i]) * (Random value between 0.0 and 1.0) * F
-            END IF
+2. The Routing Process (AVRO SDN Optimizer)
+   * Goal: Map out the final traffic path from a starting point (source) to an ending point (destination).
+   * How it works:
+     1. It analyzes the network topology to count all available links.
+     2. It passes this data to the AI engine, defining a "good setup" as one where edge weights are low on average and evenly balanced (minimizing variance).
+     3. Once the AI returns the optimized weights, it injects them back into the network map.
+     4. Finally, it calculates a classic shortest-path route (Dijkstra's algorithm) based on those custom weights and outputs the optimal path.
 
-            // Boundary Constraints Check
-            Clip all values in pop[i] so they remain between lb and ub
-
-            // Update fitness and track the global best
-            Set fit = fitness_func(pop[i])
-            IF fit < best_fit THEN
-                best_fit = fit
-                best_vulture = copy of pop[i]
-            END IF
-
-        END FOR
-    END FOR
-
-    RETURN best_vulture
-    END FUNCTION
-  
-    FUNCTION AVRO_SDN_Optimizer_Workflow(graph, source, destination):
-    // Step 1: Analyze Network Topology
-    Extract 'edges' list from graph
-    Set num_edges = length of edges
-
-    // Inline Definition: Fitness Evaluation
-    FUNCTION local_fitness_function(solution):
-        Set standard_deviation = Calculate population standard deviation of solution
-        Set mean_value = Calculate population mean of solution
-        RETURN standard_deviation + mean_value
-    END FUNCTION
-
-    // Step 2: Execute Metaheuristic Search
-    TRY:
-        Set weights = MiniAVOA_Solve(
-            num_dim = num_edges, 
-            fitness_func = local_fitness_function, 
-            pop_size = 10, 
-            epochs = 5
-        )
-    CATCH Exception:
-        // Fallback strategy on execution failure
-        Print "[AVRO ERROR] Custom AVOA failed"
-        Set weights = Array of size num_edges filled with 1.0
-    END TRY
-
-    // Step 3: Apply Optimal Weights to Graph Edges
-    FOR i from 0 to minimum of (length of weights, num_edges) - 1:
-        Get edge endpoints (u, v) from edges[i]
-        Assign graph[u][v]['weight'] = weights[i]
-    END FOR
-
-    // Step 4: Route Computation
-    Set path = Calculate Dijkstra's shortest path from source to destination using edge 'weight'
-    
-    RETURN path
-    END FUNCTION
+for more understanding of the algorithm in the project check out https://github.com/Aditya-Ghag-24/Sdn_tor_avro/blob/main/routing_docs.md
 
 
 | Feature / Step                | Algorithm's logic in research paper                       | Algorithm's logic in project                                    |            
@@ -179,23 +111,20 @@ Consequently, the routing process demonstrates the integration of AVOA with the 
 
 # Future Work
 
-As said above a future addition could add additional complex features from the paper of AVRO to make the system more robust and intelligent like including live network telemetry and a more complex This is a direct API call to the SDN controller's monitoring module. In a real SDN deployment (like Ryu or OpenDaylight), this step actively polls the switches for real-time telemetry metrics, such as:
+* Integrate live OpenFlow telemetry.
 
-* Link Utilization / Bandwidth 
-  
-* Packet Loss Rates
-  
-* Port Statistics / Queuing Delays
+* Replace the statistical fitness function with real network measurements.
 
-We could also include a Training Iteration Threshold (train): 
->The paper has a training threshold variable. It uses a condition if i < t_train to dynamically decide whether to update parameter F. And have Granular Phase Transitions:
+* Implement the complete training threshold mechanism described by *" Dynamic routing optimization in software-defined networking based         on a metaheuristic algorithm.*"
 
->This project Completely omits train and calculates F using a single, simplified generic formula.
+* Implement granular exploration and exploitation phases.
 
-Granular Phase Transitions:
->Within the exploration and exploitation phases, the code checks sub-conditions based on random parameters (e.g., if G1 >= r_G1) to choose between distinct update equations
+* Evaluate performance under larger network topologies.
 
-> This project implements a single, generic placeholder math equation for abs(F) >= 1 and abs(F) < 1.
+* Compare against shortest-path routing and ECMP.
+
+
+
 
 
 
