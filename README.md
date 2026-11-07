@@ -138,7 +138,7 @@ The routing engine adapts the African Vulture Optimization Algorithm (Chen et al
 | Feature / Step | Original Paper (Chen et al., 2024) | Project Implementation (`MiniAVOA`) |
 | :--- | :--- | :--- |
 | **Fitness Function** | Evaluates real-time telemetry state $S$ (latency, packet loss, queue occupancy) | Evaluates statistical distribution (variance and mean) across candidate link weight arrays |
-| **Exploitation Granularity** | Divides exploitation into intensive attack (`abs(F) >= `) and coordinated siege (`abs(F) < 0.5`) | Executes a unified exploitation branch whenever `abs(F) < 1` |
+| **Exploitation Granularity** | Divides exploitation into intensive attack (`abs(F) >= 0.5`) and coordinated siege (`abs(F) < 0.5`) | Executes a unified exploitation branch whenever `abs(F) < 1` |
 | **Execution Sequence** | Resolves the best candidate globally at the end of all iterations | Progressively updates candidate vectors and graph weights on each lookup pass |
 
 *For complete parameter definitions and mathematical breakdowns, refer to [`routing_docs.md`](routing_docs.md).*
