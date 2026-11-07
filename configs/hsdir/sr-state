@@ -1,0 +1,10 @@
+# Tor shared random state file last generated on 2026-04-12 08:00:00 local time
+# Other times below are in UTC
+# Please *do not* edit this file.
+
+Version 1
+TorVersion 0.3.4.11-dev (git-a521c427883697fc)
+ValidAfter 2026-04-12 08:00:00
+ValidUntil 2026-04-12 09:55:00
+Commit 1 sha3-256 28ECB54FE0C592D5C162C3F1CED9338F1807292B AAAAAGnbUQBCB4ZrrB4qXng7hG/ITEyoD85xNO/0y1zWhVyyLyn7Lg== AAAAAGnbUQA7/9s4pyui8UgStko/R/lzm+veNhoQIzpFPfuja2OvEg==
+SharedRandCurrentValue 0 zxJao+gBmFMSezvz/VXkEWEQJD5b/z+7AXNCGoLFVW0=

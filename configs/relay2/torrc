@@ -1,0 +1,14 @@
+TestingTorNetwork 1
+User root
+Nickname AvroRelay2
+Address 172.18.0.6
+ORPort 172.18.0.6:7000
+DirPort 172.18.0.6:9030
+DataDirectory /var/lib/tor
+RunAsDaemon 1
+Log notice file /etc/tor/tor.log
+AssumeReachable 1
+EnforceDistinctSubnets 0
+ExitPolicy accept *:*
+ExtendAllowPrivateAddresses 1
+DirAuthority AvroRelay orport=7000 v3ident=F896B7F2B497DB9C5617CBFFB86BE8CCFE68A28F 172.18.0.4:9030 EE242EF73C6FA93B5A6D57B55D79BA1C7EF0B09C

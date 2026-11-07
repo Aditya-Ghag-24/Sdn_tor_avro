@@ -1,0 +1,9 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.log
+tor_performance_data.csv
+*.pid
+*.sock
+.DS_Store

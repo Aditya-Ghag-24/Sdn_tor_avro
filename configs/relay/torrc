@@ -1,0 +1,29 @@
+TestingTorNetwork 1
+User root
+Nickname AvroRelay
+Address 172.18.0.4
+ORPort 172.18.0.4:7000
+DirPort 172.18.0.4:9030
+DataDirectory /var/lib/tor
+RunAsDaemon 1
+Log notice file /etc/tor/tor.log
+AuthoritativeDirectory 1
+V3AuthoritativeDirectory 1
+
+# FIXED NITRO TIMING (2+2 < 10)
+V3AuthVotingInterval 10
+V3AuthVoteDelay 2
+V3AuthDistDelay 2
+TestingV3AuthInitialVotingInterval 10
+TestingV3AuthInitialVoteDelay 2
+TestingV3AuthInitialDistDelay 2
+
+AssumeReachable 1
+EnforceDistinctSubnets 0
+ExitPolicy accept *:*
+ExtendAllowPrivateAddresses 1
+TestingDirAuthVoteExit *
+TestingDirAuthVoteGuard *
+TestingDirAuthVoteHSDir *
+KeyDirectory /etc/tor/keys
+DirAuthority AvroRelay orport=7000 v3ident=F896B7F2B497DB9C5617CBFFB86BE8CCFE68A28F 172.18.0.4:9030 EE242EF73C6FA93B5A6D57B55D79BA1C7EF0B09C

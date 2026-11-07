@@ -1,0 +1,82 @@
+network-status-version 3
+vote-status vote
+consensus-methods 25 26 27 28
+published 2026-04-12 07:59:20
+valid-after 2026-04-12 08:00:00
+fresh-until 2026-04-12 08:05:00
+valid-until 2026-04-12 08:15:00
+voting-delay 20 20
+recommended-relay-protocols Cons=1-2 Desc=1-2 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=4 Microdesc=1-2 Relay=2
+recommended-client-protocols Cons=1-2 Desc=1-2 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=4 Microdesc=1-2 Relay=2
+required-relay-protocols Cons=1 Desc=1 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=3-4 Microdesc=1 Relay=1-2
+required-client-protocols Cons=1-2 Desc=1-2 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=4 Microdesc=1-2 Relay=2
+known-flags Authority Exit Fast Guard HSDir Running Stable V2Dir Valid
+flag-thresholds stable-uptime=507 stable-mtbf=0 fast-speed=0 guard-wfu=0.000% guard-tk=0 guard-bw-inc-exits=0 guard-bw-exc-exits=0 enough-mtbf=0 ignoring-advertised-bws=0
+params 
+dir-source AvroHSDir 28ECB54FE0C592D5C162C3F1CED9338F1807292B 10.0.3.100 10.0.3.100 9030 7000
+contact avro@research.lab
+shared-rand-participate
+dir-key-certificate-version 3
+dir-address 172.18.0.5:9030
+fingerprint 28ECB54FE0C592D5C162C3F1CED9338F1807292B
+dir-key-published 2026-03-04 08:51:15
+dir-key-expires 2027-03-04 08:51:15
+dir-identity-key
+-----BEGIN RSA PUBLIC KEY-----
+MIIBigKCAYEA3h5eR0vHKr4RzceeOPmuOy/u24x2T8rTCK3BEIhxv3g0sOnMsEsA
+4CSCvZ1cEp1pPE+mhPx/5RF1Ah2wwh1840qlYUMlvxpgOm9Owck46txZhdhslYOM
+DO4fWezk47hr58M9e6w7hdncYs7IDxutbxDRn+N9XLgHzoyN9T9XEv5iT0zzZOxI
+toRzM5QzIjaKRp8G9GObxfE4V2h9mx7RS3q/KEj4KO7zRX+F5tYje4E102vjhBKO
+rtfxN3TtmZForKkbhi32rkBje2qTEbi5sAae452q5EUjUjHUheXgjNwysDqrbJ3w
+o/EmK5HaJIxgjMwS7ZCPO8Qzby202WFUWMpaod9GP6ak5+5kBnY4QnifZnPhgBbt
+zxeUUj5O9kJFsZkoUNSs1khD9/DDPsdIHawEVXtaYBkY+bdmY4ljUob3MVhcrKMR
+J0oz/wz50c1CyLzdUZcZJLx4HjnsAIK6P54KjfBnL/WijiRwB/iiDK5AqBol+F1b
+E+l0P9sY/YYVAgMBAAE=
+-----END RSA PUBLIC KEY-----
+dir-signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIIBCgKCAQEAwb4//WDJMphcx/1zSILBEiHuiaBM7s8XkccTgXmJulVJaSkIPiiE
+DScSDN2xkB8soyZEJ2m0Vl0IRu0LJO1fKO//NUOWSO1B8aXI09xxvlTNfulwrpml
+5qo8k3+hVgUgXexdWK0U77qOu9SHz9WFLQvxQMISkr+MsPIbuJ6HojxbdDPpMu/9
+8hpJ9a1XyUIZkK1kgOJUkvd936Kq7Ir5t0IO198o4Zgn3z2F0Q5XhCugGvF+8hXR
+klfNRq3jXnMkybmNM6Z4ykpDshR38jdCReE+BArqbERf3CsnAjFeHJUYX7WzaRYC
+tR/6RngnFn+LaNU/J3lMtl78XOhPmtwwDwIDAQAB
+-----END RSA PUBLIC KEY-----
+dir-key-crosscert
+-----BEGIN ID SIGNATURE-----
+uBABQb3F/4p08PrN5edotR0d5tA4NUBB8g32q+6yhueFWEAtbVaYBfZ5DU9q09XX
+bSl9wathZHnp33hOlL8JhS3bewxiJ4ulTPH/1GG+g4QL1eDetwmhp7k5mGfUhavl
+vW673Q2n6oIBBzLepmkiIZ6Ux0IuxR8cnmhLFR6jbLPK5OnBK7Yd3fGMvS4QXorf
+DeEmrbBkn4ZaDhiLlcHgZSep9MXGLqGzn/6Nr4/EUnYdptdz+PcMEoTw//qmdmr3
+oF6HDFXw0BE7n4x9kvTpdAp7ifiQs0NOIaJLWD4Y+fLBAYzF2ioRkkaJKvjGlzwO
+CrfI8c3VpKQCeeLwAt9Mng==
+-----END ID SIGNATURE-----
+dir-key-certification
+-----BEGIN SIGNATURE-----
+M9p6rZgThAQgXWve7l5cKiY4EsO/7Mo35eNVmQQFyA6yFoq5s5yME7Id5f7ITS16
+eEDM53UUd5yuAur8fxAph8USXsLz17bBCV+N/vGlYVaxr2qkRtPfls5P5DtEeN3t
+0lpSugIY6akH0NnrdGkHb5U4li4DHT3UlATU1Hqdcz0tmz8avtdB8EGWOUiuoE/8
+lp2dsEOVXh1HgJ71oyOWsOMMwEClmYbYNDElAWahaNr1yRXWllwdskcM3piEfhNs
+Q54Dc+sap3aAiQUII+s/AXqUtx3CSLWQdBP3GyFoN9b7ALSZnfIysnrPpENtnoXY
+9IVPNkEFleSbTrGQWu6NGIK/gGiHSNLMunPOL4t+C8J5m68DnWJ0a3W0NJenUD8k
+LM0hyDJJFoEgmFzreuWldxWHoukqXN9Oks8qqvOAdrRuEwldcecNzGtZNsU2nXhS
+NoSYJ3fJHt/phJuFOr8iavVMSfAfDZcWFtckvUTT7H4VE9H+X+4ct0HgvH6Ocqcy
+-----END SIGNATURE-----
+r AvroHSDir 2vCAXkJLpmy5fCsR/smMFrSiyHQ lwiHj3VR5JjV9jnWy4iWPOQJXF0 2026-04-12 07:50:53 10.0.3.100 7000 9030
+s Authority Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.3.4.11-dev
+pr Cons=1-2 Desc=1-2 DirCache=1-2 HSDir=1-2 HSIntro=3-4 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Relay=1-2
+w Bandwidth=0
+p reject 25,119,135-139,445,563,1214,4661-4666,6346-6429,6699,6881-6999
+id ed25519 93ip6jrZ0Xw55wZQwThJGDoTrtEtCGqVI2iARXGk/OU
+m 25,26,27,28 sha256=IPKfvWi4yA9ebYuElrTQ6qfR4faGNvx1Mgm0oLEuxPk
+directory-footer
+directory-signature 28ECB54FE0C592D5C162C3F1CED9338F1807292B 0A3FB97CB083355DACA5E3039FE24ECAC73B8F3B
+-----BEGIN SIGNATURE-----
+BWETQYDESp0c7BHffD0MH56NI+pkyCUv4sqe7VfVKK5gYrObpS1y1jLuzq+Cg597
+yI4MF6iRdMdAs2JbtwJlmx54UNJJpS73m4+SrRgzO0w59eh9d7uKCAGl8cd5L/jG
+8DpshWngoahq32JO6GkhhAorP0v61aGoE4dO9xFWO9S/pO4RW97/7OrpwGiTct7N
+5SD0wCA5QYXFVWN46l5Gvh2TQceK4yvQ2ZBAkYbxPkG1eg8XIU7nBL0baMfYnP8Y
+TeOtx+kfS/5jqq7t2xAOotVK0e+TPZtcyIvGW69+m18pS0VA3QNYohJaMe+AIKgV
+hulNjseLy6yqNkH47GtJ0Q==
+-----END SIGNATURE-----

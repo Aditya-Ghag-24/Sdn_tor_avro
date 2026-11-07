@@ -1,0 +1,92 @@
+network-status-version 3
+vote-status vote
+consensus-methods 25 26 27 28
+published 2026-04-12 17:07:36
+valid-after 2026-04-12 17:07:40
+fresh-until 2026-04-12 17:07:50
+valid-until 2026-04-12 17:08:10
+voting-delay 2 2
+recommended-relay-protocols Cons=1-2 Desc=1-2 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=4 LinkAuth=1 Microdesc=1-2 Relay=2
+recommended-client-protocols Cons=1-2 Desc=1-2 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=4 LinkAuth=1 Microdesc=1-2 Relay=2
+required-relay-protocols Cons=1 Desc=1 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=3-4 LinkAuth=1 Microdesc=1 Relay=1-2
+required-client-protocols Cons=1-2 Desc=1-2 DirCache=1 HSDir=1 HSIntro=3 HSRend=1 Link=4 LinkAuth=1 Microdesc=1-2 Relay=2
+known-flags Authority Exit Fast Guard HSDir Running Stable V2Dir Valid
+flag-thresholds stable-uptime=454 stable-mtbf=0 fast-speed=0 guard-wfu=0.000% guard-tk=0 guard-bw-inc-exits=0 guard-bw-exc-exits=0 enough-mtbf=1 ignoring-advertised-bws=0
+params 
+dir-source AvroRelay F896B7F2B497DB9C5617CBFFB86BE8CCFE68A28F 172.18.0.4 172.18.0.4 9030 7000
+contact (none)
+shared-rand-participate
+shared-rand-commit 1 sha3-256 F896B7F2B497DB9C5617CBFFB86BE8CCFE68A28F AAAAAGnb0ICPyKLoA6aQvyZlBELpWfumvjRMNUmIZOVLeWFthg2LFw== AAAAAGnb0IBatkgTF9WOFaKyFystHo6ISgTi6tAzFUx3vnUYfwKETQ==
+shared-rand-current-value 0 zxJao+gBmFMSezvz/VXkEWEQJD5b/z+7AXNCGoLFVW0=
+dir-key-certificate-version 3
+dir-address 172.18.0.4:9030
+fingerprint F896B7F2B497DB9C5617CBFFB86BE8CCFE68A28F
+dir-key-published 2026-03-04 08:51:14
+dir-key-expires 2027-03-04 08:51:14
+dir-identity-key
+-----BEGIN RSA PUBLIC KEY-----
+MIIBigKCAYEAsc6inCiqq8Fu6mspXDWN57fIvUULdG8fGBWr8yoZVjoYDVAtNioP
+5HmAmhG9svbf4+LxQ3RqrNqYCqil6ggfr37BfTqTMBRT0Cz8KC/du2suQ4r9IEvk
+OqsfhuF1n571sC+kb1D/cIn195DR6XRlhB/qgaULbUUpgkqz0RwH5THrGK57wZ49
+Or1tW0rIvAmcuj9fNJLqgJIYcZH7H/7wJ8j9yVo4TtCQBmWY1wZ/YYJSzZLYrc9g
+PDxoWNk5zvzXk2wVVzwi/P2wax5cP9bzmoNdG3Om6Rzedzoh6t/vTl45PT1VUisT
+dqxp4NKDo1qjIphBjoKEqkcp2CA7t36Bpwqe9AAlfn3TnalVFAiWU07Yw67y29p1
++0MzfuLIf5OYzpaQkPRZDKYXo3bIye07JrCJpnf5ZY2oTAztqvys4jr9DhYhLuhW
+sxn7PDDy4K4m6nTlsy/RQZVXBnnbe0F04PRraTEnN5AZDmay6d8hMCTsGX3AOoJ7
+FFAcFgolLv2ZAgMBAAE=
+-----END RSA PUBLIC KEY-----
+dir-signing-key
+-----BEGIN RSA PUBLIC KEY-----
+MIIBCgKCAQEAuDM6zRNAgWL+ak9dEJEWcGlhKuM42o/K2UsUHA/PDVAOLpjQi9lk
+DOLKpwiq9H5eW5DpgvQlQKKdEDN1tRxpjCrs/jN7wqZYELFXd4h0stNZAKX1Kib/
+Jvp8m1Krb/E7NdzwrF2BjopazcDIfb28lmwfRiOdQ8TwqomMNBqBMsw2QWmG/wYB
+fG7FtU8LaXPD9GuYrP22KCOoMYit5rh1zJSiQeFOlwxX0e1gKAMXeRa85fJLCLHv
+SImIGfpX6TrrNE3efFQtHg902SqaXQljKgaJB0NLNBZDIYTJu/JqVL87DPB1PN2B
+2azrS+MlrOF+3BCRj/moilG8HTv53SEgKQIDAQAB
+-----END RSA PUBLIC KEY-----
+dir-key-crosscert
+-----BEGIN ID SIGNATURE-----
+kpiay2rr2mHJQ4eRn16/f30esPizUg3auqmjDQhE0hm91TPBzHZ2yjwzfWxB9+SV
+XNCg1zYlwG5IwmhdR4ijxN5ee8jts50uoba4bUJ2n6EattB/I2INBLDMDZHHHcZb
+Qc2HvONLaXqD43hkln5E10BPuBnzlQ/4QoQv4bb5zSZyJEZCUVQBFu8HqUBueTZH
++ytJ+5jbqqDkYRlgasjWd3zakA5940vYvJMAhuxPzx1NelkWHe9wH55BYByeG336
+C4gAP6yYvb5cVbcLRA5Sm36ogWOKUkJRUkWjBbvNpY17XkUUL/fAxQ2MiCpNG7TA
+7YY5pxohbkMH+LxssAdlzw==
+-----END ID SIGNATURE-----
+dir-key-certification
+-----BEGIN SIGNATURE-----
+Eq6abn75K7Fq4rHpapx5RLCXcxqsU3ybeq8+WfF99+kumgllTQLFFRAbiEMOEhIe
+xCziYownPYt6yRUBTAFYhdDxHvWaRlx85Wtket2DntNwXevPQwg8YkFKRbKWj3SE
+PYKDUcPCVTdb6Kr+xNsJ6LhEUiUtw7zseYgZWk2NmsT6vuqExyUwPgFdP87Ka7gw
+raHX3fZXy92pTiTNn+NxbDXXa8VnsWxwUqHC6hyf+vkx/d78Y48MD4YeoPdr4HPg
+YIhp42mqm66T/4bpFqTxH1bs1FcRpimt7w7t+JSTgjyIeJ8UFBF7rEQbuoCmJiqI
+fZ7TTEEIoX20LqMZrDUVJqF1g0IkAHXWh3pOh9j9Osabj26AGxpVOnfTL+X9nSwi
+r+FYWs0WBsb1WgTTjSRwNRWqeejwy50ujXH7GVaRIGMh/tqrgdPD/eg+SILZswIm
+TDq5HLJgSGsPd7ClrkQPUTr3l4fcnl7rxClobsJAsSgk50+y7QGc2W0bySNeR5VZ
+-----END SIGNATURE-----
+r AvroHSDir 6Y0sZw2DlaDHbitJI4b2fUrt7Zg qwNHrWJKtRWLKj3BZMtTbvLtmBA 2026-04-12 17:00:01 172.18.0.5 7000 9030
+s Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.3.4.6-rc-dev
+pr Cons=1-2 Desc=1-2 DirCache=1-2 HSDir=1-2 HSIntro=3-4 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Relay=1-2
+w Bandwidth=0
+p reject 25,119,135-139,445,563,1214,4661-4666,6346-6429,6699,6881-6999
+id ed25519 VbCIAXWCbEUfpy7IxH7oPf1+vfP00WstYLCo5JzAdFU
+m 25,26,27,28 sha256=npO/5k7EEMdiAWA3TX0zOBwqkovar3Ft8BsKostCxg0
+r AvroRelay 7iQu9zxvqTtabVe1XXm6HH7wsJw 2kG6lYzCcbC158Ia05BmjVSRdQ8 2026-04-12 17:00:02 172.18.0.4 7000 9030
+s Authority Exit Fast Guard HSDir Running Stable V2Dir Valid
+v Tor 0.3.4.6-rc-dev
+pr Cons=1-2 Desc=1-2 DirCache=1-2 HSDir=1-2 HSIntro=3-4 HSRend=1-2 Link=1-5 LinkAuth=1,3 Microdesc=1-2 Relay=1-2
+w Bandwidth=0
+p reject 25,119,135-139,445,563,1214,4661-4666,6346-6429,6699,6881-6999
+id ed25519 ONs4Whe2yFNHU1kTageA0FFp0IlCy3I0wYtuSkrBPgw
+m 25,26,27,28 sha256=C4zf3LjY7l9boSPxRaCFS0gyROQQCTnSzXrT1Ho1EY8
+directory-footer
+directory-signature F896B7F2B497DB9C5617CBFFB86BE8CCFE68A28F 6E42CE60A858AB8CF1B88D15008F4046083BCA13
+-----BEGIN SIGNATURE-----
+qunaBWjBIVjw1/ILm4ArWDVBKKnkB062wUXF8vv1c1ECouJXHnbyNBYlTPgpiHRn
+PxSnAA0wALV8W5vBWTYfS6OknGtsTz7hgA+P3pENWjaH4c/jZ2qjnwM4f6ydvcHR
+RQ/B5W1mDg+7IBZ4diPUkLOQ9O2LT7HqqXpbfE97XqEDVMpiHRFSVGsD3PhgQADA
+eQCxs1+ZNKpAL6/EpBYAJ7OfwQt5l/Re6F9hMR/8VX8kbJ49wj3XavZlLYmmOi5+
+Wg1MjUOhjBRbXK/e+ejy/njfHL3ODtZ2vMBLY46oibHM1Dc3zMD7XOgOhqHFLOLd
+bH2W3pDE8dVAlX/mOnGZkQ==
+-----END SIGNATURE-----
