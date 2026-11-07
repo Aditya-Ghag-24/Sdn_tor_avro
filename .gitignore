@@ -7,3 +7,4 @@ tor_performance_data.csv
 *.pid
 *.sock
 .DS_Store
+My_Tor_Research_Session.md
