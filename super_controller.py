@@ -27,12 +27,15 @@ class SuperAvroController(app_manager.OSKenApp):
         self.path_cache = {} # FIX: Cache paths to stabilize handshakes
         self.gateway_mac = '00:00:00:00:00:fe'
         
-        # PRE-LEARNED IDENTITIES (The "Chutney" Identity fix)
-        # We map the Tor IPs to their expected container MACs to skip ARP delays
-        self.host_macs['172.18.0.10'] = '02:42:ac:12:00:0a'
-        self.host_macs['172.18.0.4'] = '02:42:ac:12:00:04'
-        self.host_macs['172.18.0.5'] = '02:42:ac:12:00:05'
-        self.host_macs['172.18.0.6'] = '02:42:ac:12:00:06' # Added tor_relay2
+        # PRE-SEEDED MACs (verified working in April session).
+        # Containernet assigns these veth MACs deterministically based on container
+        # creation order. They are NOT Docker bridge MACs — they are the actual
+        # interface MACs on the mn.tor_* veth pairs inside the network namespace.
+        # ARP learning on line 87 will overwrite these if they ever drift.
+        self.host_macs['172.18.0.10'] = '02:42:ac:12:00:0a'  # tor_cli
+        self.host_macs['172.18.0.4']  = '02:42:ac:12:00:04'  # tor_relay  (DA)
+        self.host_macs['172.18.0.5']  = '02:42:ac:12:00:05'  # tor_hsdir
+        self.host_macs['172.18.0.6']  = '02:42:ac:12:00:06'  # tor_relay2
 
         
         # Initialize Topology Graph for AVRO
@@ -93,8 +96,9 @@ class SuperAvroController(app_manager.OSKenApp):
             if dst_dpid:
                 target_dp = self.datapaths.get(dst_dpid)
                 if target_dp:
-                    # DYNAMIC PORT FIX: Use get_host_port instead of hardcoded 9
                     out_port = self.get_host_port(arp_pkt.dst_ip)
+                    if out_port is None:  # Bug Fix #4: guard against unmapped IPs
+                        return
                     self.packet_out(target_dp, out_port, msg.data, target_dp.ofproto.OFPP_CONTROLLER)
                 return
             return
@@ -103,35 +107,47 @@ class SuperAvroController(app_manager.OSKenApp):
         ip_pkt = pkt.get_protocol(ipv4.ipv4)
         if ip_pkt:
             src_ip, dst_ip = ip_pkt.src, ip_pkt.dst
+            # Bug Fix #1: derive source switch from src IP, not from the arriving
+            # datapath — a spine switch re-forwarding a packet gives the wrong dpid.
+            src_dpid = self.ip_to_switch.get(src_ip, datapath.id)
             dst_dpid = self.ip_to_switch.get(dst_ip)
             if not dst_dpid: return
 
             target_mac = self.host_macs.get(dst_ip)
             if not target_mac: return # Wait for ARP
 
-            # STICKY AVRO PATH SELECTION: Use the Genetic Algorithm for ALL nodes,
-            # but keep the path stable for 60s to ensure handshakes finish.
+            # STICKY AVRO PATH SELECTION: keep path stable for 60s
             cache_key = (src_ip, dst_ip)
             now = time.time()
-            
+
             if cache_key in self.path_cache:
                 path, timestamp = self.path_cache[cache_key]
                 if now - timestamp > 60: # Path expires after 60s
-                    path = self.optimizer.get_optimal_path(self.graph, datapath.id, dst_dpid)
+                    path = self._compute_path(src_dpid, dst_dpid)
                     self.path_cache[cache_key] = (path, now)
                     print(f"--- AVRO (Refresh): Routing {src_ip} -> {dst_ip} via {path} ---")
-                else:
-                    # Keep the sticky path
-                    pass 
+                # else: keep the sticky path as-is
             else:
-                # New connection: Calculate optimal path using AVRO
-                path = self.optimizer.get_optimal_path(self.graph, datapath.id, dst_dpid)
+                # New connection: compute optimal path
+                path = self._compute_path(src_dpid, dst_dpid)
                 self.path_cache[cache_key] = (path, now)
                 print(f"--- AVRO (New): Routing {src_ip} -> {dst_ip} via {path} ---")
+
             self.install_full_path(src_ip, dst_ip, target_mac, path)
-            
+
             out_port = self.get_port(datapath.id, path[1]) if len(path) > 1 else self.get_host_port(dst_ip)
+            if out_port is None:  # Bug Fix #4: guard against unmapped port
+                return
             self.packet_out(datapath, out_port, msg.data, in_port)
+
+    def _compute_path(self, src_dpid, dst_dpid):
+        """Return the forwarding path between two switches.
+        Bug Fix #3: same-switch flows skip AVRO entirely — no inter-switch
+        routing is needed so running the metaheuristic is both wrong and slow.
+        """
+        if src_dpid == dst_dpid:
+            return [src_dpid]
+        return self.optimizer.get_optimal_path(self.graph, src_dpid, dst_dpid)
 
     def install_full_path(self, src_ip, dst_ip, dst_mac, path):
         for i in range(len(path)):
@@ -139,6 +155,9 @@ class SuperAvroController(app_manager.OSKenApp):
             if not dp: continue
             in_p = self.get_host_port(src_ip) if i == 0 else self.get_port(path[i], path[i-1])
             out_p = self.get_host_port(dst_ip) if i == len(path)-1 else self.get_port(path[i], path[i+1])
+            if in_p is None or out_p is None:  # Bug Fix #4: skip hops with unmapped ports
+                print(f"[WARN] Skipping hop {i} in path {path}: in_p={in_p}, out_p={out_p}")
+                continue
             actions = [dp.ofproto_parser.OFPActionOutput(out_p)]
             match = dp.ofproto_parser.OFPMatch(eth_type=0x0800, ipv4_src=src_ip, ipv4_dst=dst_ip, in_port=in_p)
             self.add_flow(dp, 10, match, actions, idle_timeout=60)

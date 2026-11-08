@@ -6,8 +6,28 @@ from mininet.log import setLogLevel, info
 from mininet.link import TCLink
 from mininet.node import RemoteController
 import os
+import subprocess
+
+def fix_host_key_ownership():
+    """
+    Pre-flight fix: ensure the relay keys/ directory on the HOST is owned by
+    root (uid=0) so that the Docker container running as root can access it.
+    This breaks when the host user (uid=1000) previously created the directory
+    — Tor rejects key dirs not owned by the running user.
+    """
+    keys_dirs = [
+        os.path.join(os.path.dirname(__file__), 'configs', 'relay', 'keys'),
+    ]
+    for d in keys_dirs:
+        if os.path.exists(d):
+            info(f'*** Fixing ownership of {d} -> root:root\n')
+            subprocess.run(['chown', '-R', 'root:root', d], check=True)
+            subprocess.run(['chmod', '-R', '700', d], check=True)
 
 def setup_network():
+    # Fix key directory ownership before containers mount the volume
+    fix_host_key_ownership()
+
     net = Containernet(controller=RemoteController)
     info('*** Adding Remote Controller\n')
     net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=6633)
@@ -84,6 +104,9 @@ def setup_network():
         node.cmd(f'ip route add default via {gw} dev {intf}')
         node.cmd('mkdir -p /var/lib/tor && chmod 700 /var/lib/tor && rm -rf /var/lib/tor/*')
         node.cmd('rm -f /etc/tor/lock /etc/tor/state /etc/tor/cached-*')
+        # Fix: ensure keys/ dir is owned by root inside the container so Tor
+        # doesn't refuse to read it (uid mismatch from host volume mount).
+        node.cmd('[ -d /etc/tor/keys ] && chown -R root:root /etc/tor/keys && chmod -R 700 /etc/tor/keys || true')
         node.cmd('tor -f /etc/tor/torrc > /etc/tor/tor.log 2>&1 &')
 
     info('\n--- Spine-Leaf Tor Network Ready ---\n')
