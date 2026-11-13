@@ -84,7 +84,7 @@ Interactions across the three tiers are strictly isolated through standardized i
 ## 7. Related Documentation
 
 * [Routing Methodology](routing-methodology.md)
-* [Modify the Network Topology](../how-to/change_topology.md)
+* [Modify the Network Topology](../how-to/change-topology.md)
 * [Launch SDN Controller](../how-to/launch-controller.md)
 * [Run Private Tor Network](../how-to/run-tor-network.md)
 
