@@ -45,12 +45,21 @@ At initialization (`Step 2` of `MiniAVOA_Solve`), the solver constructs a popula
 
 During subsequent epochs, candidates update their positions relative to the current global best solution (`best_vulture`) using a randomized probability $P \in [0, 1]$ and an adaptive decay factor $F$:
 
-$$F = (2 \cdot r - 1) \cdot \left(1 - \frac{\text{epoch}}{\text{epochs}}\right), \quad r \in [0, 1]$$
+$$
+F = (2 \cdot r - 1) \cdot \left(1 - \frac{\text{epoch}}{\text{epochs}}\right), \quad r \in [0, 1]
+$$
 
-* **Exploration Phase ($\vert F \vert \ge 1$):** Candidates explore broad, untested weight configurations across the search space:
-  $$\text{pop}[i] = \text{best\_vulture} - \vert P \cdot \text{best\_vulture} - \text{pop}[i] \vert \cdot F$$
-* **Exploitation Phase ($\vert F \vert < 1$):** Candidates refine weight allocations locally around `best_vulture`:
-  $$\text{pop}[i] = \text{best\_vulture} + (\text{best\_vulture} - \text{pop}[i]) \cdot r' \cdot F, \quad r' \in [0, 1]$$
+* **Exploration Phase ($\lvert F \rvert \ge 1$):** Candidates explore broad, untested weight configurations across the search space:
+
+$$
+\texttt{pop}[i] = \texttt{best\textunderscore vulture} - \lvert P \cdot \texttt{best\textunderscore vulture} - \texttt{pop}[i] \rvert \cdot F
+$$
+
+* **Exploitation Phase ($\lvert F \rvert < 1$):** Candidates refine weight allocations locally around `best_vulture`:
+
+$$
+\texttt{pop}[i] = \texttt{best\textunderscore vulture} + (\texttt{best\textunderscore vulture} - \texttt{pop}[i]) \cdot r' \cdot F, \quad r' \in [0, 1]
+$$
 
 All updated values are clipped to remain strictly within $[1.0, 20.0]$. *(Note: Unlike the full multi-stage AVOA paper, `MiniAVOA` uses a single unified exploitation equation rather than bifurcating into intensive attack and coordinated siege sub-phases.)*
 
