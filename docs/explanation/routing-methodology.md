@@ -224,6 +224,6 @@ To ensure network resilience if the metaheuristic optimizer encounters an except
 
 - [System Architecture](architecture.md)
 - [Tor Integration](tor-integration.md)
-- [Launch SDN Controller](../hot-to/launch_controller.md)
-- [Modify Network Topology](../how-to/change_topology.md)
+- [Launch SDN Controller](../hot-to/launch-controller.md)
+- [Modify Network Topology](../how-to/change-topology.md)
 
