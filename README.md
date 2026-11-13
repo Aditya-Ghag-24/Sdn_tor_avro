@@ -45,7 +45,7 @@ Rather than using computationally intensive Deep Reinforcement Learning (DRL) or
 4. **Adaptive Phase Shift:** An exploration/exploitation decay factor controls whether the algorithm searches untested weight configurations or refines known optimal link distributions.
 5. **Flow Rule Installation:** The optimal weight vector is mapped to the graph, shortest paths are calculated, and corresponding OpenFlow `flow_mod` entries are pushed to OVS switches.
 
-For detailed algorithmic proofs, fitness formulas, and parameter comparisons with literature, see the [Routing Methodology Explanation](docs/explanation/routing-methodology.md) and [Algorithm Reference](docs/reference/algorithm.md).
+For detailed algorithmic proofs, fitness formulas, and parameter comparisons with literature, see the [Routing Methodology Explanation](docs/explanation/routing-methodology.md).
 
 ---
 
