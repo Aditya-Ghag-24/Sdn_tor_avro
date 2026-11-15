@@ -117,7 +117,7 @@ Expected output: In the end it will say Bootstrapped 100%
 
 4. Trigger Routing Optimization & Test Connectivity
 
-Send a test ping or HTTP request from the client node through the network:
+Send a test ping from the client node through the network:
 
 # In the Containernet CLI prompt:
 ```bash
