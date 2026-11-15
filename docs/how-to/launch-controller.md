@@ -147,33 +147,33 @@ cookie=0x0, duration=60.0s, table=0, n_packets=12, n_bytes=1008, priority=0 acti
 ```
 Key fields to check:
 
-    * priority=0 actions=CONTROLLER:65535: Default table-miss flow forwarding unmatched packets to super_controller.py.
+* priority=0 actions=CONTROLLER:65535: Default table-miss flow forwarding unmatched packets to super_controller.py.
 
-    * priority=1 ... actions=output:X: Active unicast paths installed by the controller.
+* priority=1 ... actions=output:X: Active unicast paths installed by the controller.
 
-    * n_packets > 0: Confirms packets are traversing the installed switch rules.
+* n_packets > 0: Confirms packets are traversing the installed switch rules.
 
 ### Troubleshooting
 
-    * Address already in use (Errno 98):
+* Address already in use (Errno 98):
 
-    * Another OSKen instance is running in the background. Kill any processes bound to OpenFlow ports:
+* Another OSKen instance is running in the background. Kill any processes bound to OpenFlow ports:
 ```Bash
 
     sudo fuser -k 6633/tcp 6653/tcp
 ```
-    * Switches show is_connected: false:
+* Switches show is_connected: false:
 
-        1. Check if the controller stopped or exited in Terminal 1.
+  1. Check if the controller stopped or exited in Terminal 1.
 
-        2. Confirm local firewall rules are not blocking loopback traffic on ports 6633 and 6653:
+  2. Confirm local firewall rules are not blocking loopback traffic on ports 6633 and 6653:
 ```Bash
 
         sudo ufw status
 ```
-    * Fallback Warning in Logs ([AVRO ERROR] Custom AVOA failed):
+* Fallback Warning in Logs ([AVRO ERROR] Custom AVOA failed):
 
-    * If MiniAVOA encounters an exception, the controller assigns default uniform weights (1.0) across the graph edges so path computation can still proceed through Dijkstra without dropping traffic. Note that paths computed under this fallback are uniform-weight Dijkstra paths rather than the output of a successful MiniAVOA run.
+* If MiniAVOA encounters an exception, the controller assigns default uniform weights (1.0) across the graph edges so path computation can still proceed through Dijkstra without dropping traffic. Note that paths computed under this fallback are uniform-weight Dijkstra paths rather than the output of a successful MiniAVOA run.
 
 ### Stopping the Controller
 
