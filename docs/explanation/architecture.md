@@ -50,9 +50,9 @@ The control plane operates through three sequential modules:
 
 ### B. AVRO Routing Engine
 * **Generate Candidate Paths:** Initializes a population of candidate edge-weight vectors across all discovered network links.
-* **Evaluate Objective Function:** Scores each candidate vector using statistical uniformity (minimizing link weight mean and standard deviation) to prevent link saturation.
+* **Evaluate Objective Function:** Scores each candidate vector using a synthetic statistical objective that minimizes the mean and standard deviation of generated edge weights. This encourages lower and more uniform edge costs but does not directly measure or prevent link saturation.
 * **Select Best Path:** Maps the highest-scoring weight vector onto the topology graph and resolves the optimal hop-by-hop sequence via Dijkstra's algorithm.
-* **Iterate and Update Solutions:** Alternates between global exploration and local exploitation across epochs to refine routing paths dynamically.
+* **Iterate and Update Solutions:** Across five evolutionary epochs, the algorithm iteratively evaluates a population of 10 random link-weight arrays against a fitness function that penalizes high averages and uneven variance ($\sigma + \mu)$, discarding poor candidates while blending and mutating the best ones to converge on a balanced weight vector. Once the final epoch completes, the controller updates the network graph by stamping this winning array directly onto the edge weights, shifting the lowest-cost path so Dijkstra's algorithm routes the next packet down a clear link.
 
 ### C. Flow Management
 * **Install and Update Flow Rules:** Translates computed switch paths into OpenFlow 1.3 `OFPFlowMod` messages.
