@@ -5,6 +5,9 @@
 This document describes the integration of a private Tor network within the SDN-controlled testbed. The Tor environment consists of containerized Tor nodes deployed through Containernet and interconnected using an Open vSwitch (OVS) Spine-Leaf topology.
 > Tor encrypts application traffic within its circuits. The SDN controller manages the underlying forwarding infrastructure and does not decrypt Tor traffic or control the selection of Tor relays. Network metadata, such as packet sizes, timing, and addressing information, may still be visible at the network layer.
 
+> **Note on Relay Bootstrap Percentage:**  
+> While `tor_cli` reaches `Bootstrapped 100%`, the three relay nodes (`tor_relay`, `tor_relay2`, and `tor_hsdir`) typically stabilize at approximately `85%`. Because a Tor relay does not count itself when attempting to construct internal test circuits, a 3-relay network lacks enough distinct nodes for relays to complete self-testing. Client circuit construction and layered encryption remain unaffected.
+
 The implementation uses four Tor containers:
 * A Tor client.
 * Two Tor relay nodes.
