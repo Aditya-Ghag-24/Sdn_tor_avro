@@ -3,6 +3,7 @@
 ## 1. Overview
 
 This document describes the integration of a private Tor network within the SDN-controlled testbed. The Tor environment consists of containerized Tor nodes deployed through Containernet and interconnected using an Open vSwitch (OVS) Spine-Leaf topology.
+> Tor encrypts application traffic within its circuits. The SDN controller manages the underlying forwarding infrastructure and does not decrypt Tor traffic or control the selection of Tor relays. Network metadata, such as packet sizes, timing, and addressing information, may still be visible at the network layer.
 
 The implementation uses four Tor containers:
 * A Tor client.
