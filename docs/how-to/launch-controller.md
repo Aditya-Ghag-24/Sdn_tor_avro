@@ -179,12 +179,11 @@ Key fields to check:
 
 To gracefully shut down the controller:
 
-    1. Navigate to the terminal running osken-manager.
+1. Navigate to the terminal running osken-manager.
 
-    2. Press Ctrl + C (outputs Keyboard Interrupt received. Closing OSKen application manager...).
+2. Press Ctrl + C (outputs Keyboard Interrupt received. Closing OSKen application manager...).
 
-    3. Confirm socket shutdown:
-    ```Bash
-
+3. Confirm socket shutdown:
+```Bash
     sudo ss -tulpn | grep -E ':6633|:6653'
 ```
