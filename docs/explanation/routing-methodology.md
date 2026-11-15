@@ -235,7 +235,6 @@ To ensure network resilience if the metaheuristic optimizer encounters an except
 
     * Anonymity Guarantees: Computing minimum-total-weight underlay transit paths does not inherently strengthen Tor's cryptographic anonymity or defend against end-to-end traffic correlation attacks.
 
-    * Baseline Benchmarking Required: Quantitative performance gains (throughput, jitter, and flow setup latency) must be empirically benchmarked against standard baseline protocols such as OSPF or static shortest-path Dijkstra under identical traffic loads.
 ## Related Documents
 
 - [System Architecture](architecture.md)
