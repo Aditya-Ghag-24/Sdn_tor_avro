@@ -5,6 +5,8 @@ Manage, interact with, and verify containerized private Tor nodes across the Con
 > ⚠️ **ISOLATED TESTBED ENVIRONMENT**
 > This deployment operates inside a strictly isolated virtual network with no external DNS or Internet routing. Containers mount to Open vSwitch datapath ports rather than the standard `docker0` bridge; therefore, `docker inspect` will not return standard host bridge IP allocations.
 
+> **Expected Relay Bootstrap Behavior (~85%):**  
+> Because this private topology contains only three relay/directory nodes (`tor_relay`, `tor_relay2`, `tor_hsdir`) and Tor relays exclude themselves when building external verification circuits, only the client container (`tor_cli`) reaches `Bootstrapped 100%`. The relay nodes intentionally stall around `85%` due to the absence of additional distinct relays in the consensus. This does not affect circuit encryption—`tor_cli` completes the full multi-hop cryptographic handshake across the available nodes.
 ---
 
 ## Architecture & Environment Constraints
