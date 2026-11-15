@@ -58,7 +58,6 @@ For detailed pseudocode, fitness definitions, and parameter comparisons with lit
 - **Synthetic Metric Optimization:** Candidate fitness is currently computed over internal statistical representations of the link weights rather than dynamic OpenFlow port counters (`OFPPortStatsReply`).
 - **Static Graph State:** Does not account for sudden runtime link failures (flapping) or external cross-traffic injection.
 - **Unified Exploitation Branch:** Uses a simplified single-branch exploitation phase rather than the full two-tier siege attack mechanism described in foundational AVOA literature.
-- **Unverified End-to-End Metrics:** Current testing confirms OpenFlow handshake completion, Tor bootstrap (`100%`), and circuit establishment, but does not yet measure end-to-end application throughput, latency improvements, or anonymity properties.
 - **Relay Bootstrap Ceiling (~85%):** Only `tor_cli` reaches `100%` bootstrap; the three relay containers stall around `85%` because relays exclude themselves when building verification circuits, though client-initiated encrypted circuits complete normally.
 ---
 
