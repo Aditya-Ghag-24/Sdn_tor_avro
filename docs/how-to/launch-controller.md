@@ -158,7 +158,7 @@ Key fields to check:
     * Address already in use (Errno 98):
 
     * Another OSKen instance is running in the background. Kill any processes bound to OpenFlow ports:
-    ```Bash
+```Bash
 
     sudo fuser -k 6633/tcp 6653/tcp
 ```
@@ -167,7 +167,7 @@ Key fields to check:
         1. Check if the controller stopped or exited in Terminal 1.
 
         2. Confirm local firewall rules are not blocking loopback traffic on ports 6633 and 6653:
-        ```Bash
+```Bash
 
         sudo ufw status
 ```
