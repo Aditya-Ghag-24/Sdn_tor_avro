@@ -72,7 +72,7 @@ The configuration files define the identity, network addresses, listening ports,
 
 The client configuration includes the following important parameters:
 | Parameter | Purpose |
-| :--- | :--- | :--- |
+| :--- | :--- | 
 | TestingTorNetwork 1 |	Enables Tor's private testing-network configuration |
 | Nickname AvroClient |	Identifies the client |
 | Address 172.18.0.10 |	Defines the client's network address |
