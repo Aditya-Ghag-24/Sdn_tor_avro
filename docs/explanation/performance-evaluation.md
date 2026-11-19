@@ -1,6 +1,6 @@
 # Performance Evaluation
 
-Compare the `MiniAVOA` (AVRO) SDN routing engine against an OSPF shortest-path baseline across network-level and Tor application-level metrics.
+This file Compares the `MiniAVOA` (AVRO) SDN routing engine against an OSPF shortest-path baseline across network-level and Tor application-level metrics.
 
 ---
 
