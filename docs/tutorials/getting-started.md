@@ -51,11 +51,11 @@ Project Configuration
 
 Inspect and confirm baseline configuration files before execution:
 
-    Topology Map: Verify relay, switch, and host definitions in topo.py.
+Topology Map: Verify relay, switch, and host definitions in topo.py.
 
-    Tor Daemon Configs: Confirm port bindings (ORPort, DirPort) in configs/.
+Tor Daemon Configs: Confirm port bindings (ORPort, DirPort) in configs/.
 
-    Controller Settings: Review default AVOA population size and epoch counts in super_controller.py.
+Controller Settings: Review default AVOA population size and epoch counts in super_controller.py.
 
 (For parameter descriptions and configuration file options, see the Configuration Reference.)
 
