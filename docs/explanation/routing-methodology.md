@@ -104,10 +104,10 @@ When traffic enters the data plane without a matching switch flow rule, the cont
 2. **Generate Candidate Link Weights:** `AVRO_SDN_Optimizer_Workflow` overrides the class defaults (`pop_size=5, epochs=2`) and invokes `MiniAVOA_Solve(num_dim=12, pop_size=10, epochs=5)`, initializing 10 random 12-dimensional weight vectors bounded in $[1, 20]$.
 3. **Evaluate Candidate Solutions:** Over 5 epochs, candidates update predominantly via the exploitation equation, scoring each vector via $f(W) = \sigma(W) + \mu(W)$ and updating `best_vulture`.
 4. **Determine Route:** The selected weight vector is applied to the NetworkX graph edges, and Dijkstra's algorithm computes the path with the minimum total accumulated edge weight—for example, `[6, 1, 5]` (`s6 -> s1 -> s5`), logged as:
-   ```text
+```text
    -- AVRO (Refresh): Routing 172.18.0.6 -> 172.18.0.10 via [6, 1, 5] --
 ```
-    Install Flow Entries: The controller maps switch-to-switch transitions along [6, 1, 5] to physical switch ports and pushes OpenFlow FlowMod rules to s6, s1, and s5.
+Install Flow Entries: The controller maps switch-to-switch transitions along [6, 1, 5] to physical switch ports and pushes OpenFlow FlowMod rules to s6, s1, and s5.
 
 ###  Implementation Pseudocode
 ```text
@@ -207,33 +207,33 @@ END FUNCTION
 
 Once Dijkstra returns the ordered switch path (e.g., [6, 1, 5]), the controller enforces the path across the data plane:
 
-    1. Port Resolution: For each adjacent switch pair (u,v) in the path, the controller looks up the egress port on switch u connected to switch v, plus the final host-facing egress port on the destination leaf switch.
+1. Port Resolution: For each adjacent switch pair (u,v) in the path, the controller looks up the egress port on switch u connected to switch v, plus the final host-facing egress port on the destination leaf switch.
 
-    2. Match Criteria: Constructs an OpenFlow 1.3 match header specifying Layer-3 source and destination IP addresses (ipv4_src, ipv4_dst) or MAC addresses.
+2. Match Criteria: Constructs an OpenFlow 1.3 match header specifying Layer-3 source and destination IP addresses (ipv4_src, ipv4_dst) or MAC addresses.
 
-    3. Action Set: Defines an OFPActionOutput instruction directing matching packets out of the resolved egress port.
+3. Action Set: Defines an OFPActionOutput instruction directing matching packets out of the resolved egress port.
 
-    4. Rule Deployment: Sends an OFPFlowMod message to every switch along the path so subsequent packets in the same flow are switched directly in OVS without triggering PacketIn controller interrupts.
+4. Rule Deployment: Sends an OFPFlowMod message to every switch along the path so subsequent packets in the same flow are switched directly in OVS without triggering PacketIn controller interrupts.
 
 ## 7. Fallback Routing Mechanism
 
 To ensure network resilience if the metaheuristic optimizer encounters an exception (such as a graph dimension mismatch or numerical failure), AVRO_SDN_Optimizer_Workflow wraps MiniAVOA_Solve in a TRY / CATCH block:
 
-    1. Logs [AVRO ERROR] Custom AVOA failed to the controller console.
+1. Logs [AVRO ERROR] Custom AVOA failed to the controller console.
 
-    2. Returns a uniform fallback weight array ([1.0] * self.num_edges).
+2. Returns a uniform fallback weight array ([1.0] * self.num_edges).
 
-    3. If optimization fails, the controller falls back to uniform edge weights. Dijkstra can still compute a path using these weights, but this path is not the result of a successful MiniAVOA optimization.
+3. If optimization fails, the controller falls back to uniform edge weights. Dijkstra can still compute a path using these weights, but this path is not the result of a successful MiniAVOA optimization.
 
 ## 8. Limitations
 
-    * Synthetic Weight Generation: Link weights are synthesized statistically during optimization passes rather than derived continuously from live OpenFlow port telemetry (packet loss, queue depth, or measured link delay).
+* Synthetic Weight Generation: Link weights are synthesized statistically during optimization passes rather than derived continuously from live OpenFlow port telemetry (packet loss, queue depth, or measured link delay).
 
-    * Emulated Testbed Constraints: Latency (10ms), bandwidth (10 Mbps), and convergence timings reflect local Containernet/OVS virtualization overhead on a single host rather than distributed physical hardware.
+* Emulated Testbed Constraints: Latency (10ms), bandwidth (10 Mbps), and convergence timings reflect local Containernet/OVS virtualization overhead on a single host rather than distributed physical hardware.
 
-    * Separation of Overlay and Underlay: Tor circuit selection (choosing Guard, Middle, and Exit relays) operates independently at the application layer; MiniAVOA only computes layer-3 switch transit paths between those chosen relays.
+* Separation of Overlay and Underlay: Tor circuit selection (choosing Guard, Middle, and Exit relays) operates independently at the application layer; MiniAVOA only computes layer-3 switch transit paths between those chosen relays.
 
-    * Anonymity Guarantees: Computing minimum-total-weight underlay transit paths does not inherently strengthen Tor's cryptographic anonymity or defend against end-to-end traffic correlation attacks.
+* Anonymity Guarantees: Computing minimum-total-weight underlay transit paths does not inherently strengthen Tor's cryptographic anonymity or defend against end-to-end traffic correlation attacks.
 
 ## Related Documents
 
