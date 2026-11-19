@@ -84,7 +84,7 @@ Comprehensive guides and technical documentation are organized using the Diátax
 
 - **Live Telemetry Ingestion:** Connect the optimization engine to dynamic OpenFlow telemetry metrics (live queue occupancy, port loss, and transit delay counters).
 - **Bifurcated Exploitation:** Implement the full two-stage coordinated siege attack logic from Chen et al. (2024).
-- **Empirical Benchmarking:** Further Benchmarking is needed to show how the network can improve the Tor function.
+- **Empirical Benchmarking:** Dragonfly comparison has been performed and broader testing remains.
 - **Dynamic Failure Recovery:** Automate fast-reroute OpenFlow table failover on switch link-down events.
 
 ---
