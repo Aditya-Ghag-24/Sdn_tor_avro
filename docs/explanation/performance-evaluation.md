@@ -120,7 +120,7 @@ Observe the performance trade-offs rather than a universal winner:
 
 * **AVRO Strengths:** Recorded lower measured load variance (`1,240.5` vs `4,500.2`) and fewer retransmissions (`842` vs `2,706` packets).
 * **OSPF Strengths:** Achieved faster convergence (`0.180 s` vs `0.620 s`), lower average latency (`0.088 ms` vs `0.127 ms`), and higher throughput (`44,042.93 Mbps` vs `42,408.96 Mbps`).
-* **Parity:** Both configurations maintained `0.0%` packet loss and nearly identical peak latency (`0.304 ms` vs `0.302 ms`).
+* **Parity:** Both configurations maintained nearly identical peak latency (`0.304 ms` vs `0.302 ms`).
 
 Metaheuristic edge-weight generation introduces control-plane computation time and does not automatically outperform conventional shortest-path routing across every metric.
 
