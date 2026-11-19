@@ -29,7 +29,7 @@ Check if OpenFlow ports `6633` or `6653` are already bound by an existing contro
 
 ```bash
 sudo ss -tulpn | grep -E ':6633|:6653'
-
+```
 If a process is holding either port, terminate it:
 ```Bash
 
