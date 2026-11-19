@@ -11,6 +11,11 @@ Evaluate how underlay routing affects packet forwarding and Tor consensus transf
 * **AVRO (`MiniAVOA`):** Generates candidate edge weights, applies them to the `NetworkX` graph, and resolves minimum-total-weight paths via Dijkstra's algorithm.
 * **OSPF Baseline:** Computes conventional shortest-path routes across the switch fabric.
 
+| Experiment | Topology | What it evaluates |
+| :--- | :--- | :--- |
+| Routing benchmark | Dragonfly | Network-level AVRO vs OSPF |
+| Tor application test | Spineless | SOCKS5 setup and consensus transfer |
+
 ---
 
 ## 2. Experimental Environment
