@@ -46,7 +46,7 @@ The current implementation uses a synthetic fitness function, minimizing the mea
 1. **Topology Ingestion:** The controller models the discovered Spine-Leaf switches and links as an undirected graph using NetworkX.
 2. **Population-Based Search:** A population of candidate edge-weight vectors is initialized within bounded limits (`[1.0, 20.0]`).
 3. **Fitness Calculation:** Candidates are evaluated using a synthetic objective function summing population standard deviation and mean ($\sigma + \mu$).
-4. **Adaptive Phase Shift:** An exploration/exploitation decay factor controls whether candidate vectors search broader weight configurations or refine around the best-scoring vector.
+4. **Adaptive Phase Shift:** Adaptive Position Updates: An epoch-dependent factor reduces the magnitude of candidate position updates. Under the current implementation, the exploitation update is predominantly executed.
 5. **Flow Rule Installation:** The selected weight vector is mapped onto the NetworkX graph, minimum-total-weight paths are calculated via Dijkstra's algorithm, and corresponding OpenFlow `flow_mod` entries are pushed to OVS switches.
 
 For detailed pseudocode, fitness definitions, and parameter comparisons with literature, see the [Routing Methodology Explanation](docs/explanation/routing-methodology.md).
