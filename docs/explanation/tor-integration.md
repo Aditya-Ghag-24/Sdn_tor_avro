@@ -246,16 +246,18 @@ The private Tor deployment provides an experimental environment for investigatin
 
 The current limitations include:
 
-    * Single Directory Authority: The testbed uses one directory authority, implemented by tor_relay. It does not reproduce the distributed directory-authority voting infrastructure of the public Tor network.
+* Single Directory Authority: The testbed uses one directory authority, implemented by tor_relay. It does not reproduce the distributed directory-authority voting infrastructure of the public Tor network.
 
-    * No Public Internet Exit Connectivity: Although the relay configuration includes ExitPolicy accept *:*, the testbed does not provide external Internet connectivity. Consequently, the relays cannot provide ordinary public Internet exit traffic.
+* No Public Internet Exit Connectivity: Although the relay configuration includes ExitPolicy accept *:*, the testbed does not provide external Internet connectivity. Consequently, the relays cannot provide ordinary public Internet exit traffic.
 
-    * Limited Hidden-Service Functionality: The tor_hsdir node is configured for hidden-service directory functionality, but the testbed does not establish externally accessible hidden services.
+* Limited Hidden-Service Functionality: The tor_hsdir node is configured for hidden-service directory functionality, but the testbed does not establish externally accessible hidden services.
 
-    * Limited Application-Level Verification: The current demonstration verifies successful Tor circuit establishment through the bootstrap logs. It does not independently demonstrate end-to-end application data transfer through a Tor circuit.
+* Limited Application-Level Verification: The current demonstration verifies successful Tor circuit establishment through the bootstrap logs. It does not independently demonstrate end-to-end application data transfer through a Tor circuit.
 
-    * Limited Anonymity Evaluation: All nodes operate within a controlled laboratory environment. The implementation does not establish or measure real-world anonymity guarantees, traffic-analysis resistance, or path diversity across independent networks.
+* Limited Anonymity Evaluation: All nodes operate within a controlled laboratory environment. The implementation does not establish or measure real-world anonymity guarantees, traffic-analysis resistance, or path diversity across independent networks.
 
-    * Limited Scalability: The current deployment contains two relay nodes and one additional HSDir node. It does not reproduce the scale or geographical distribution of the public Tor network.
+* Limited Scalability: The current deployment contains two relay nodes and one additional HSDir node. It does not reproduce the scale or geographical distribution of the public Tor network.
 
-    * Limited Performance Benchmarking: The current implementation records basic Tor logs but does not include systematic application-level bandwidth or latency benchmarking of Tor circuits.
+* **Limited Application-Level Verification:** Bootstrap logs confirm circuit establishment, and `data_gatharing.py` validates SOCKS5 HTTP consensus retrieval from `tor_cli` to `tor_hsdir` (~2.8 KB private consensus payload). However, the testbed does not yet evaluate diverse end-to-end application workloads or sustained multi-stream traffic.
+  
+* **Limited Performance Benchmarking:** While `data_gatharing.py` records SOCKS5 connection-establishment times (`0.0 s` at integer-second resolution) and consensus transfer rates (~`0.0381 Mbps` average across two 6-trial runs), it relies on 1-second integer timer resolution (`time()`), reuses circuits by default, and does not constitute systematic application-level bandwidth or latency benchmarking across varied traffic loads.
