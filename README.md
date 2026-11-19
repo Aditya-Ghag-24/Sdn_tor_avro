@@ -76,7 +76,7 @@ Comprehensive guides and technical documentation are organized using the Diátax
 - [**System Architecture**](docs/explanation/architecture.md) — Deep architectural dive into the interaction between the application, control, and infrastructure planes.
 - [**Routing Methodology**](docs/explanation/routing-methodology.md) — Theoretical background, mathematical motivation, and comparison of metaheuristics versus machine learning in SDN environments
 - [**Tor Integration**](docs/explanation/tor-integration.md)  — How the Tor is configured and works in the project.
-- [**Performance Result**](docs/explanation/tor-integration.md) - Shows the benchmark and results found by testing the network.
+- [**Performance Result**](docs/explanation/performance-evaluation) - Shows the benchmark and results found by testing the network.
 
 ---
 
