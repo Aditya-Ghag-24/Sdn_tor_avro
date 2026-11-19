@@ -1,0 +1,7 @@
+Metric,AVRO (Genetic Algorithm),OSPF (Shortest Path),Unit,Better_If
+Throughput,42408.96,44042.93,Mbps,Higher
+Latency_Avg,0.127,0.088,ms,Lower
+Latency_Max,0.304,0.302,ms,Lower
+Load_Variance,1240.5,4500.2,Score,Lower
+Convergence_Time,0.62,0.18,s,Lower
+Retransmissions,842,2706,Packets,Lower
