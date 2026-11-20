@@ -71,7 +71,7 @@
 | Tor Onion Router (`ORPort`) | `7000` | TCP (TLS) | `172.18.0.4:7000`, `172.18.0.5:7000`, `172.18.0.6:7000` | Peer-to-peer TLS-encrypted onion routing and circuit cell forwarding. |
 | Tor Directory (`DirPort`) | `9030` | TCP (HTTP) | `172.18.0.4:9030`, `172.18.0.5:9030`, `172.18.0.6:9030` | Serves network status consensus, authority certificates, votes, and router descriptors. |
 | Internal Test HTTP | `80` | TCP (HTTP) | `172.18.0.5:80` (`tor_hsdir`) | Destination endpoint for circuit verification (e.g., `http://172.18.0.5:80/testfile`). |
-| OpenFlow Protocol 1.3 | 6633 | TCP | 127.0.0.1 | Remote controller endpoint configured in topo.py; OVS switches connect to OS-Ken through this endpoint. |
+| OpenFlow Protocol 1.3 | 6633 | TCP | `127.0.0.1` | Remote controller endpoint configured in topo.py; OVS switches connect to OS-Ken through this endpoint. |
 
 ## 5. Controller Specification
 
