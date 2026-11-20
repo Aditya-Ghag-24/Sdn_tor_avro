@@ -4,12 +4,12 @@
 
 | Technology | Version Used | Official Source |
 | :--- | :--- | :--- |
-| Mininet / Containernet | Containernet 2.5.0 (commit `cc4cc08e7…`) | Mininet Documentation / Containernet Repository |
-| OS-Ken | 2.14.0 (Ryu fork) | OpenStack OS-Ken Documentation |
-| Open vSwitch (OVS) | 2.17.0 | Open vSwitch Documentation |
-| Tor | 0.4.8.10 (via `antitree/private-tor:latest`) | Tor Project Documentation / Tor Manual |
-| NetworkX | 3.6.1 | NetworkX Documentation |
-| Python | 3.12.4 | Python 3.12 Documentation |
+| Mininet / Containernet | Containernet 2.5.0 (commit `cc4cc08e7…`) | [Containernet Repository](https://github.com/containernet/containernet?utm_source=chatgpt.com) [Mininet](https://mininet.org) |
+| OS-Ken | 2.14.0 (Ryu fork) | [OpenStack OS-Ken Documentation](https://docs.openstack.org/os-ken/latest/?utm_source=chatgpt.com) |
+| Open vSwitch (OVS) | 2.17.0 | [Open vSwitch Documentation](https://docs.openvswitch.org/en/latest/?utm_source=chatgpt.com) |
+| Tor | 0.4.8.10 (via `antitree/private-tor:latest`) | [Tor Project Documentation / Tor Manual](https://github.com/antitree/private-tor-network) |
+| NetworkX | 3.6.1 | [NetworkX Documentation](https://networkx.org/documentation/stable/?utm_source=chatgpt.com) |
+| Python | 3.12.4 | [Python 3.12 Documentation](https://docs.python.org/3.12/?utm_source=chatgpt.com) |
 
 ## 2. Project Environment
 
@@ -47,6 +47,17 @@
 | `tor_relay2` | `mn.tor_relay2` | `172.18.0.6/16` | `s6` | **Relay (`AvroRelay2`):** Dedicated middle/exit relay providing a distinct circuit hop. |
 | `tor_hsdir` | `mn.tor_hsdir` | `172.18.0.5/16` | `s7` | **HSDir + Relay (`AvroHSDir`):** Hidden-Service Directory storing HS descriptors; also operates as a relay and hosts internal HTTP test endpoints. |
 
+**physical switch-port mapping**
+| Connection | Port |
+| :--- | :--- |
+| s1 -> s4, s5, s6, s7 | 1,2,3,4 |
+| s2 -> s4, s5, s6, s7 | 1,2,3,4 |
+| s3 -> s4, s5, s6, s7 | 1,2,3,4 |
+| s4 -> s1, s2, s3 | 1,2,3 |
+| s5 -> s1, s2, s3 | 1,2,3 |
+| s6 -> s1, s2, s3 | 1,2,3 |
+| s7 -> s1, s2, s3 | 1,2,3 |
+
 ### Link Configuration
 - **Link Type:** Mininet/Containernet `TCLink`
 - **Bandwidth:** 10 Mbps
@@ -60,18 +71,30 @@
 | Tor Onion Router (`ORPort`) | `7000` | TCP (TLS) | `172.18.0.4:7000`, `172.18.0.5:7000`, `172.18.0.6:7000` | Peer-to-peer TLS-encrypted onion routing and circuit cell forwarding. |
 | Tor Directory (`DirPort`) | `9030` | TCP (HTTP) | `172.18.0.4:9030`, `172.18.0.5:9030`, `172.18.0.6:9030` | Serves network status consensus, authority certificates, votes, and router descriptors. |
 | Internal Test HTTP | `80` | TCP (HTTP) | `172.18.0.5:80` (`tor_hsdir`) | Destination endpoint for circuit verification (e.g., `http://172.18.0.5:80/testfile`). |
-| OpenFlow Protocol | Standard OVS/OpenFlow control channel | TCP | Loopback / Management bridge (`s1`–`s7` ↔ OS-Ken) | Southbound control plane between OVS switches (2.17.0) and `SuperAvroController` (OpenFlow 1.3 standard for OS-Ken). |
+| OpenFlow Protocol 1.3 | 6633 | TCP | 127.0.0.1 | Remote controller endpoint configured in topo.py; OVS switches connect to OS-Ken through this endpoint. |
 
 ## 5. Controller Specification
 
 - **Controller Class / Application:** `SuperAvroController`
 - **Framework & Version:** OS-Ken 2.14.0
 - **Southbound Protocol:** OpenFlow 1.3 (managed via OS-Ken `ofproto` / `ofp_event`)
+- **Controller Connection:**
+  - Address: 127.0.0.1
+  - Port: 6633
+  - Configure in topo.py through RemoteController.
+- **Path Cache:**
+  - Cache key: (source_ip, destination_ip)
+  - Path lifetime: 60 seconds.
+  - Expired paths are recomputed when the corresponding traffic is processed.  
 - **Implemented Event Handlers:**
   - `OFPSwitchFeatures`: Registers OVS datapaths (`s1`–`s7`) into `self.datapaths` upon switch connection.
   - `packet_in` (ARP): Inspects incoming ARP packets to dynamically learn and map host `MAC ↔ IP` associations across all containers and hosts.
   - `packet_in` (IPv4): Triggers path computation via the `MiniAVOA` optimizer between source and destination leaf switches, then provisions flow rules along the computed path.
-- **Topology Discovery Mechanism:** Switch registration via `OFPSwitchFeatures` combined with passive ARP snooping (`packet_in`) and NetworkX graph modeling (3.6.1) of the leaf-spine fabric.
+- **Topology Representation and Host Learning:**
+  - The leaf-spine graph is statically constructed in SuperAvroController.__init__() using NetworkX.
+  - Switch datapaths are registered through the EventOFPSwitchFeatures handler.
+  - Host MAC addresses are learned and updated through ARP packet processing in packet_in_handler().
+  - Host IP-to-switch mappings are maintained using self.ip_to_switch.
 - **Routing & Flow Installation Interfaces:**
   - **Interface:** `add_flow()` method invoked per switch along the calculated switch path.
   - **Match Fields:** `eth_type=0x0800` (IPv4), `ipv4_src`, `ipv4_dst`, `in_port`.
@@ -81,9 +104,24 @@
 ## 6. Routing Optimizer Specification
 
 - **Module Location:** `avro_logic.py`
-- **Algorithm:** `MiniAVOA` (Genetic-algorithm / African Vultures Optimization-inspired path optimizer)
-- **Population Size:** 30
-- **Epochs / Generations:** 50
+- **Optimizer Class:** `AVRO_SDN_Optimizer`
+- **Methahuristic Class:** `MiniAVOA`
+- **Algorithm:** Simplified African Vulture Optimization Algorithm (AVOA)-inspired implementation.
+- **Population Size:** 10
+- **Epochs / Generations:** 5
+- **Number of dimensions:** 12
+- **Lower weight bound:** 1.0
+- **Upper weight bound:** 20.0
+> Note: MiniAVOA has constructor defaults of 5 for population size and 2 for epoch. `AVRO_SDN_Optimizer.solve()` explicitly overrides these with 10 and 5.
+- **Fitness Function:**
+  - fitness(solution) = np.std(solution) + np.mean(solution)
+  - The optimizer minimizes the mean and standard deviation of the generated edge-weight vector. It does not directly measure live link utilization, latency, bandwidth or congestion.
+- **Return Values and Behaviour:**
+  - MiniAVOA.solve() returns the best candidate edge-weight vector.
+  - AVRO_SDN_Optimizer.solve() returns the candidate vector as a Python list.
+  - If optimization raises an exception, the fallback is a list of 1.0 weights.
+  - get_optimal_path() assigns the generated weights to graph edges and uses NetworkX weighted shortest-path calculation to return an ordered switch path.
+  - The controller uses this path to install OpenFlow forwarding rules.   
 - **Link Weight Evaluation & Boundaries:** Evaluates underlying link metrics (latency and bandwidth across the 10 Mbps / 10 ms `TCLink`s) to determine optimal switch-to-switch traversal costs. *(Note: Explicit numeric min/max weight clamping constants and exact mathematical fitness formula expressions are encapsulated within `avro_logic.py` and not exposed in the high-level architecture snapshot.)*
 - **Fitness Function:** Evaluates candidate switch-level paths across the leaf-spine graph based on link weights (minimizing latency / maximizing available bandwidth).
 - **Return Values & Behavior:**
@@ -95,8 +133,8 @@
 
 | File / Directory Path | Scope / Component | Purpose & Relevant Configuration Keys / Values |
 | :--- | :--- | :--- |
-| `topo.py` | Host / Containernet | Defines the 7-switch leaf-spine topology, `TCLink(bw=10, delay='10ms')`, static IP mappings (`tor_configs`), gateway assignment (`172.18.0.254`), and runs `fix_host_key_ownership()` prior to container boot. |
-| `avro_logic.py` | Host / SDN Controller | Implements the `MiniAVOA` routing optimizer (`population = 30`, `generations = 50`). |
+| `topo.py` | Host / Containernet | Defines the 7-switch leaf-spine topology, `TCLink(bw=10, delay='10ms')`, static IP mappings (`tor_configs`), gateway assignment (`172.18.0.254`), and runs `fix_host_key_ownership()` prior to container boot (Note: Tor containers are initially created with 10.0.0.x addresses. During network initialization, their interfaces are flushed and reassigned the 172.18.0.x/16 addresses listed in the Network Specification.). |
+| `avro_logic.py` | Host / SDN Controller | Implements the `MiniAVOA` and `AVRO_SDN_Optimizer`; uses (`population size = 10`, `epochs = 5` and `weight bounds [1.0,20.0]`). |
 | `requirements.txt` | Host / Python Env | Pins Python dependencies (`requests`, `pysocks`, `networkx==3.6.1`, `mininet`, `os_ken==2.14.0`). |
 | `/etc/tor/torrc` (Common across all Tor containers) | All Tor Nodes | `TestingTorNetwork 1`, `User root`, `DataDirectory /var/lib/tor`, `RunAsDaemon 1`, `Log notice file /etc/tor/tor.log`, `AssumeReachable 1`, `EnforceDistinctSubnets 0`, `ExitPolicy accept *:*`, `ExtendAllowPrivateAddresses 1`, `DirAuthority AvroRelay orport=7000 v3ident=… 172.18.0.4:9030 EE242EF...` |
 | `/etc/tor/torrc` (`tor_cli`) | Client Container | `Nickname AvroClient`, `Address 172.18.0.10`, `SocksPort 172.18.0.10:9050`, `UseMicrodescriptors 0` |
