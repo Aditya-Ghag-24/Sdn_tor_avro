@@ -77,7 +77,8 @@ Comprehensive guides and technical documentation are organized using the Diátax
 - [**Routing Methodology**](docs/explanation/routing-methodology.md) — Theoretical background, mathematical motivation, and comparison of metaheuristics versus machine learning in SDN environments
 - [**Tor Integration**](docs/explanation/tor-integration.md)  — How the Tor is configured and works in the project.
 - [**Performance Result**](docs/explanation/performance-evaluation.md) - Shows the benchmark and results found by testing the network.
-
+### Reference
+- [**References to the technologies used**](docs/Reference/reference.md) - Details all the specification and configuration of technologies used.
 ---
 
 ## Future Work
